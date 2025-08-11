@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VR Boxing Tournament</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        .confetti-container {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            pointer-events: none;
+            overflow: hidden;
+            z-index: 1000;
+        }
+        
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: #f00;
+            opacity: 0.8;
+            border-radius: 50%;
+            animation: confetti-fall 3s ease-in-out forwards;
+        }
+        
+        @keyframes confetti-fall {
+            0% {
+                transform: translateY(-100px) rotate(0deg);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(100vh) rotate(360deg);
+                opacity: 0;
+            }
+        }
+    </style>
+</head>
+<body class="text-light">
+    <div class="container py-3">
+
+        <!-- Setup Phase -->
+        <div id="setup-phase" class="mb-5">
+            <h2 class="h4 mb-3">Add Players (2-16)</h2>
+            <div class="row g-3 mb-3">
+                <div class="col-md-6">
+                    <input type="text" id="player-name" class="form-control" placeholder="Enter player name" maxlength="30">
+                </div>
+                <div class="col-md-3">
+                    <button id="add-player" class="btn btn-primary w-100">Add Player</button>
+                </div>
+                <div class="col-md-3">
+                    <div class="file-upload btn btn-outline-secondary w-100">
+                        <span>Upload Names</span>
+                        <input type="file" id="file-upload" accept=".txt" class="form-control">
+                    </div>
+                </div>
+            </div>
+            
+            <div id="player-list" class="mb-4">
+                <!-- Player list will be populated here -->
+            </div>
+            
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button id="start-tournament" class="btn btn-success" disabled>Start Tournament</button>
+            </div>
+        </div>
+
+        <!-- Tournament Phase -->
+        <div id="tournament-phase" class="d-none">
+            <div class="d-flex justify-content-end mb-3">
+                <button id="reset-tournament" class="btn btn-outline-danger">Reset Tournament</button>
+            </div>
+            
+            <div id="bracket" class="bracket-container">
+                <!-- Bracket will be generated here -->
+            </div>
+        </div>
+
+        <!-- Winner Screen -->
+        <div id="winner-screen" class="d-none">
+            <div class="winner-content">
+                <h1 class="display-3 mb-4 fw-bold text-uppercase">🏆 TOURNAMENT CHAMPION 🏆</h1>
+                <h2 class="display-4 mb-5" id="winner-name"></h2>
+                <div class="d-flex justify-content-center">
+                    <button id="new-tournament" class="btn btn-primary btn-lg">New Tournament</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Confetti Container (will be populated by JavaScript) -->
+        <div id="confetti-container" class="d-none"></div>
+
+        <!-- Add import map for Three.js -->
+        <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.159.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.159.0/examples/jsm/"
+            }
+        }
+        </script>
+        
+        <!-- Bootstrap JS Bundle with Popper -->
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+        
+        <!-- Main App -->
+        <script type="module" src="app.js"></script>
+    </div>
+</body>
+</html>

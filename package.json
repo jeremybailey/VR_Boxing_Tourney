@@ -1,0 +1,20 @@
+{
+  "name": "vr-boxing-tournament",
+  "version": "1.0.0",
+  "description": "VR Boxing Tournament Bracket System",
+  "main": "server-clean.js",
+  "scripts": {
+    "start": "node server-clean.js",
+    "dev": "nodemon server-clean.js"
+  },
+  "dependencies": {
+    "ws": "^8.18.3",
+    "express": "^4.18.2"
+  },
+  "engines": {
+    "node": ">=14.0.0"
+  },
+  "keywords": ["boxing", "tournament", "bracket", "vr"],
+  "author": "",
+  "license": "MIT"
+}
