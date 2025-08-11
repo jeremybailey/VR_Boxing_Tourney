@@ -20,14 +20,19 @@ const MAX_PLAYERS = 32;
 let ws;
 
 // WebSocket server configuration
-const WS_URL = `ws://${window.location.hostname}:8000/ws`;
+const isProduction = window.location.protocol === 'https:';
+const wsProtocol = isProduction ? 'wss://' : 'ws://';
+const wsPort = isProduction ? '' : ':8000';
+const WS_URL = `${wsProtocol}${window.location.hostname}${wsPort}/ws`;
 
 // Import confetti functions
 import { initConfetti, cleanupConfetti } from './confetti.js';
 
 // Fallback to local development if production URL fails
 let usingFallback = false;
-const FALLBACK_WS_SERVER = 'ws://localhost:8000/ws'; // Added /ws endpoint
+const FALLBACK_WS_SERVER = isProduction 
+    ? `wss://${window.location.hostname}/ws` 
+    : 'ws://localhost:8000/ws';
 
 // Initialize the app
 function init() {

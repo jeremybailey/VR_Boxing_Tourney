@@ -6,16 +6,41 @@ const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 8000;
 
+// Enable CORS for all routes
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+    next();
+});
+
 // Serve static files from the current directory
 app.use(express.static('.'));
+
+// Health check endpoint
+app.get('/health', (req, res) => {
+    res.status(200).send('OK');
+});
 
 // Create HTTP server
 const server = http.createServer(app);
 
+// Handle WebSocket upgrade requests
+server.on('upgrade', (request, socket, head) => {
+    const pathname = new URL(request.url, `http://${request.headers.host}`).pathname;
+    
+    if (pathname === '/ws') {
+        wss.handleUpgrade(request, socket, head, (ws) => {
+            wss.emit('connection', ws, request);
+        });
+    } else {
+        socket.destroy();
+    }
+});
+
 // Create WebSocket server
 const wss = new WebSocket.Server({ 
-    server,
-    path: '/ws'
+    noServer: true, // We'll handle the upgrade manually
+    clientTracking: true
 });
 
 // Store the current state
